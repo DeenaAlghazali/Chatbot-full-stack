@@ -20,6 +20,9 @@ function Chatbot() {
           .post(`/`, { message: inputText })
           .then(() => axios.get("/getAllMessages"))
           .then((response) => setMessages(response.data));
+      } else {
+        axios.get("/getAllMessages")
+        .then((response) => setMessages(response.data))
       }
     }
     fetchData();

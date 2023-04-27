@@ -11,7 +11,13 @@ export default function Messages({ messages, inputText }) {
     <div className="messages">
       {messages?.map(({ _id, message, type, payload }) => {
         return type === "sent" ? (
-          <BotMessage key={_id} text={message} payload={payload} />
+          <BotMessage
+            key={_id}
+            id={_id}
+            text={message}
+            payload={payload}
+            lastMessageId={messages[messages.length - 1]?._id}
+          />
         ) : (
           <UserMessage key={_id} inputText={inputText} text={message} />
         );
