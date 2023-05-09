@@ -14,12 +14,24 @@ export default function BotMessage({ id, text, payload, lastMessageId }) {
     }
   }, [id, lastMessageId]);
 
-  let newMessage = `${text} `;
+let newMessage;
+if (text.includes("Welcome to our restaurant")) {
+  newMessage = `<p>${text}</p><table className="table-style"><thead><tr><th>Meal Name</th><th>Price</th></tr></thead><tbody>`;
   payload?.meals?.forEach((meal) => {
-    newMessage += `<br>${meal.name} ${meal.price}
-      ${payload?.totalPrice ? `${meal?.quantity} ${meal?.total}` : ""} `;
+    newMessage += `<tr><td>${meal.name}</td><td>${meal.price}</td>${payload?.totalPrice ? `${meal?.quantity}` : ""}${payload?.totalPrice ? `${meal?.total}` : ""}</tr>`;
   });
-  newMessage += `${payload?.totalPrice ? `<br>${payload?.totalPrice} ` : ""}`;
+  newMessage += '</tbody></table>';
+}else if(text.includes("Your order")){
+newMessage = `<p>${text}</p><table className="table-style"><thead><tr><th>Meal Name</th><th>Price</th><th>Quantity</th><th>Total</th></tr></thead><tbody>`;
+  payload?.meals?.forEach((meal) => {
+    newMessage += `<tr><td>${meal.name}</td><td>${meal.price}</td><td>${payload?.totalPrice ? `${meal?.quantity}` : ""}</td><td>${payload?.totalPrice ? `${meal?.total}` : ""}</td></tr>`;
+  });
+  newMessage += '</tbody></table>';
+} else {
+  newMessage = `${text} `;
+}
+newMessage += `${payload?.totalPrice ? `<br>${payload?.totalPrice} shekel ` : ""}`;
+
 
   return (
     <div className="message-container">
