@@ -28,12 +28,12 @@ export default function BotMessage({ id, text, payload, lastMessageId }) {
       <tbody>`;
     payload?.meals?.forEach((meal) => {
       newMessage += `<tr><td>${meal.name}</td><td>${meal.price}</td>${
-        payload?.totalPrice ? <td>${meal?.quantity}</td> : ""
-      }${payload?.totalPrice ? <td>${meal?.total}</td> : ""}</tr>`;
+        payload?.totalPrice ? `<td>${meal?.quantity}</td>` : ""
+      }${payload?.totalPrice ? `<td>${meal?.total}</td>` : ""}</tr>`;
     });
     newMessage += "</tbody></table>";
   } else {
-    newMessage = `${text}` ;
+    newMessage = `${text} `;
   }
   newMessage += `${
     payload?.totalPrice ? `<br>${payload?.totalPrice} shekel ` : ""
