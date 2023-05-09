@@ -10,6 +10,10 @@ const confirmOrder = async (req, msg, res, lastMsg) => {
       type: "sent",
       payload: {
         step: "greeting",
+        quantity: +lastMsg.payload.quantity,
+        order: {
+          name: lastMsg.payload.order.name,
+        },
       },
     });
 
@@ -23,10 +27,31 @@ const confirmOrder = async (req, msg, res, lastMsg) => {
       type: "sent",
       payload: {
         step: "address",
+        quantity: +lastMsg.payload.quantity,
+        order: {
+          name: lastMsg.payload.order.name,
+        },
       },
     });
     return res.json({
       data: [{ message: "Please enter your address" }],
+    });
+  } else {
+    await addMessage({
+      cookie: req.cookies["message"],
+      message: `please enter yes or no`,
+      type: "sent",
+      payload: {
+        step: "quantity",
+        quantity: +lastMsg.payload.quantity,
+        order: {
+          name: lastMsg.payload.order.name,
+        },
+      },
+    });
+
+    return res.json({
+      data: [{ message: "please enter yes or no" }],
     });
   }
 };
